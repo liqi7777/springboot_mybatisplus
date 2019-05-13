@@ -15,8 +15,8 @@ mybatis-plus:
     mapper-locations: classpath:mybatis/mappers/*Mapper.xml
     # MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名，注册后在 Mapper 对应的 XML 文件中可以直接使用类名，而不用使用全限定的类名(即 XML 中调用的时候不用包含包名)
     global-config:
-        id-type: 0
-        field-strategy: 1
+      db-config:
+        id-type: id_worker
     # 原生 MyBatis 所支持的配置
     # 原生Mybatis configuration,setting配置 http://www.mybatis.org/mybatis-3/zh/configuration.html#settings
     configuration:
