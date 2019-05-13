@@ -1,6 +1,7 @@
 package com.example.springboot_mybatisplus;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springboot_mybatisplus.mapper.SysUserMapper;
@@ -11,6 +12,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -190,5 +192,54 @@ public class SpringbootMybatisplusApplicationTests {
         System.out.println(userMaps);
     }
 
+    /**
+     * and or  nested
+     * nested :正常嵌套 不带 AND 或者 OR
+     * 主动调用or表示紧接着下一个方法不是用and连接!(不调用or则默认为使用and连接)
+     *
+     * @throws Exception
+     */
+    @Test
+    public void queryWrapper() throws Exception {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("name", "Sandy").or(userQueryWrapper1 -> userQueryWrapper1.eq("age", 20).ne("alias_name", "liqi_01"));
+//        userQueryWrapper.eq("age",20).eq("alias_name","liqi_01");
+        List<User> users = userMapper.selectList(userQueryWrapper);
+        System.out.println(users);
+    }
 
+
+    /**
+     * 设置查询字段
+     * select(String... sqlSelect)
+     * select(Predicate<TableFieldInfo> predicate)
+     * select(Class<T> entityClass, Predicate<TableFieldInfo> predicate)
+     *
+     * @throws Exception
+     */
+    @Test
+    public void QueryWrapper() throws Exception {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>(new User());
+        //指定查询字段
+//        userQueryWrapper.select("id", "name");
+//        userQueryWrapper.select(tableFieldInfo -> tableFieldInfo.getColumn().startsWith("na"));
+        List<Map<String, Object>> mapList = userMapper.selectMaps(userQueryWrapper);
+        System.out.println(mapList);
+    }
+
+
+    /**
+     * set(String column, Object val)
+     * set(boolean condition, String column, Object val)
+     *
+     * @throws Exception
+     */
+    @Test
+    public void UpdateWrapper() throws Exception {
+        UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
+        User user = userMapper.selectById(2);
+        userUpdateWrapper.set("name", "jack").eq("name", "Jack");
+        int updateResult = userMapper.update(user, userUpdateWrapper);
+        System.out.println(updateResult);
+    }
 }
