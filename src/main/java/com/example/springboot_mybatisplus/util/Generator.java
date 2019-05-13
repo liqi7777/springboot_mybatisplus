@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import org.relaxng.datatype.Datatype;
 
 /**
  * @author zh
@@ -19,7 +20,7 @@ public class Generator {
     public static void main(String[] args) {
         String packageName = "com.example.springboot_mybatisplus";
         boolean serviceNameStartWithI = false;//auth -> UserService, 设置成true: auth -> IUserService
-        generateByTables(serviceNameStartWithI, packageName, "liqi", "freeter", "sys_user");
+        generateByTables(serviceNameStartWithI, packageName, "liqi", "freeter", "user");
 
         System.out.println("completed...");
     }
