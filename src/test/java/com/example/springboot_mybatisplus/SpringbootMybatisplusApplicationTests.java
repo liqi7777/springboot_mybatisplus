@@ -31,6 +31,7 @@ public class SpringbootMybatisplusApplicationTests {
     @Autowired
     private UserMapper userMapper;
 
+
     @Test
     public void testSelect() {
         System.out.println(("----- selectAll method test ------"));
@@ -90,6 +91,7 @@ public class SpringbootMybatisplusApplicationTests {
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.eq("alias_name", "liqi_01");
         User user = userMapper.selectOne(userQueryWrapper);
+        System.out.println(user.getAge());
         System.out.println(user.toString());
     }
 
@@ -241,5 +243,18 @@ public class SpringbootMybatisplusApplicationTests {
         userUpdateWrapper.set("name", "jack").eq("name", "Jack");
         int updateResult = userMapper.update(user, userUpdateWrapper);
         System.out.println(updateResult);
+    }
+
+
+    /**
+     * mybatis plus 分页插件
+     *
+     * @throws Exception
+     */
+    @Test
+    public void Pagination() throws Exception {
+        Page<User> userPage = new Page<>(1, 2);
+        IPage<User> userIPage = userMapper.selectPageVo(userPage, 20);
+        System.out.println(userIPage.getRecords());
     }
 }
