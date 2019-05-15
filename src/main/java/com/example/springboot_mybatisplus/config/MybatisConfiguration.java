@@ -1,5 +1,7 @@
 package com.example.springboot_mybatisplus.config;
 
+import com.baomidou.mybatisplus.core.injector.ISqlInjector;
+import com.baomidou.mybatisplus.extension.injector.LogicSqlInjector;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +25,16 @@ public class MybatisConfiguration {
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
+    }
+
+    /**
+     * 逻辑删除( 使用mp自带方法删除和查找都会附带逻辑删除功能 (自己写的xml不会))
+     *
+     * @return
+     */
+    @Bean
+    public ISqlInjector sqlInjector() {
+        return new LogicSqlInjector();
     }
 
    /*

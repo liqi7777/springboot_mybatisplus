@@ -11,12 +11,19 @@ spring:
 
 
 mybatis-plus:
+    #枚举类 扫描路径，如果配置了该属性，会将路径下的枚举类进行注入，让实体类字段能够简单快捷的使
+    type-enums-package:
     #包扫描路径
     mapper-locations: classpath:mybatis/mappers/*Mapper.xml
     # MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名，注册后在 Mapper 对应的 XML 文件中可以直接使用类名，而不用使用全限定的类名(即 XML 中调用的时候不用包含包名)
     global-config:
       db-config:
         id-type: id_worker
+        #逻辑已删除值,(逻辑删除下有效
+        logic-delete-value: 1
+        #逻辑未删除值,(逻辑删除下有效)
+        logic-not-delete-value: 0
+
     # 原生 MyBatis 所支持的配置
     # 原生Mybatis configuration,setting配置 http://www.mybatis.org/mybatis-3/zh/configuration.html#settings
     configuration:

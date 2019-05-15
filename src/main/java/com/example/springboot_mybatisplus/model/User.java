@@ -1,5 +1,7 @@
 package com.example.springboot_mybatisplus.model;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
+
 import java.io.Serializable;
 
 /**
@@ -8,7 +10,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author liqi
- * @since 2019-05-13
+ * @since 2019-05-15
  */
 public class User implements Serializable {
 
@@ -34,10 +36,10 @@ public class User implements Serializable {
      */
     private String email;
 
-    /**
-     * 外号
-     */
     private String aliasName;
+
+    @TableLogic
+    private Integer isDelete;
 
 
     public Long getId() {
@@ -80,6 +82,14 @@ public class User implements Serializable {
         this.aliasName = aliasName;
     }
 
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -88,6 +98,7 @@ public class User implements Serializable {
                 ", age=" + age +
                 ", email=" + email +
                 ", aliasName=" + aliasName +
+                ", isDelete=" + isDelete +
                 "}";
     }
 }
