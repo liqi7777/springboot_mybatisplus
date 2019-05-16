@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springboot_mybatisplus.model.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.springboot_mybatisplus.sqlInjector.DeleteAll;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -26,4 +27,10 @@ public interface UserMapper extends BaseMapper<User> {
      * @return 分页对象
      */
     IPage<User> selectPageVo(Page page, @Param("age") Integer age);
+
+
+    /**
+     * sql 注入器注入删除全部方法
+     */
+    void deleteAll();
 }

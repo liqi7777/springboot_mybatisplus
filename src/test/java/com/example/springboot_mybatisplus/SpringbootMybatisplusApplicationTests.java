@@ -279,11 +279,24 @@ public class SpringbootMybatisplusApplicationTests {
     @Test
     public void FieldFillTest() throws Exception {
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.eq("id","5");
+        userQueryWrapper.eq("id", "5");
         User user = userMapper.selectOne(userQueryWrapper);
         System.out.println(user.toString());
         user.setName("billie");
         int i = userMapper.updateById(user);
         System.out.println(i);
+    }
+
+    /**
+     * 攻击 SQL 阻断（作用！阻止恶意的全表更新删除）
+     *
+     * @throws Exception
+     */
+    @Test
+    public void BlockAttackSqlTest() throws Exception {
+//        UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
+//        int update = userMapper.update(new User(), userUpdateWrapper);
+//        System.out.println(update);
+        userMapper.deleteAll();
     }
 }

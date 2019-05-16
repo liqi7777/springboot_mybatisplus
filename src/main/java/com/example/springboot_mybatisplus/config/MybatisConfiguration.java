@@ -1,12 +1,20 @@
 package com.example.springboot_mybatisplus.config;
 
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
+import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.extension.injector.LogicSqlInjector;
+import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.example.springboot_mybatisplus.sqlInjector.MySqlInjector;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zh
@@ -24,18 +32,27 @@ public class MybatisConfiguration {
     */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
-        return new PaginationInterceptor();
+        PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+
+        // 攻击 SQL 阻断解析器、加入解析链
+        List<ISqlParser> sqlParserList = new ArrayList<>();
+        sqlParserList.add(new BlockAttackSqlParser());
+        paginationInterceptor.setSqlParserList(sqlParserList);
+        return paginationInterceptor;
     }
 
     /**
      * 逻辑删除( 使用mp自带方法删除和查找都会附带逻辑删除功能 (自己写的xml不会))
+     * 3.1.1开始不再需要这一步
      *
      * @return
      */
     @Bean
+    @ConditionalOnMissingBean(MySqlInjector.class)
     public ISqlInjector sqlInjector() {
         return new LogicSqlInjector();
     }
+
 
    /*
     * oracle数据库配置JdbcTypeForNull

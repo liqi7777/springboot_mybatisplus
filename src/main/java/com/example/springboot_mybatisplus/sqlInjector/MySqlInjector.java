@@ -2,6 +2,7 @@ package com.example.springboot_mybatisplus.sqlInjector;
 
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
+import com.baomidou.mybatisplus.extension.injector.methods.additional.LogicDeleteByIdWithFill;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
