@@ -10,23 +10,32 @@ spring:
          stat-view-servlet:
             loginUsername: admin
             loginPassword: 123456
+            #IP白名单 (没有配置或者为空，则允许所有访问)
+            allow:
+            #允许清空统计数据
+            reset-enable: false
+            url-pattern: /druid/*
+          #WebStatFilter用于采集web-jdbc关联监控的数据
+         web-stat-filter:
+           exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
         dynamic:
           druid: #以下是全局默认值，可以全局更改
-            initial-size:
-            max-active:
-            min-idle:
-            max-wait:
-            time-between-eviction-runs-millis:
-            time-between-log-stats-millis:
-            stat-sqlmax-size:
-            min-evictable-idle-time-millis:
-            max-evictable-idle-time-millis:
-            test-while-idle:
-            test-on-borrow:
-            test-on-return:
-            validation-query:
-            validation-query-timeout:
-            use-global-datasource-stat:
+           #<!-- 配置获取连接等待超时的时间 -->
+            initial-size: 10
+            max-active: 100
+            min-idle: 10
+            # <!-- 配置获取连接等待超时的时间 -->
+            max-wait: 60000
+            time-between-eviction-runs-millis: 2000
+            min-evictable-idle-time-millis: 600000
+            max-evictable-idle-time-millis: 900000
+            test-while-idle: true
+            test-on-borrow: false
+            test-on-return: false
+            validation-query: SELECT 1
+            validation-query-timeout: 2000
+            #合并多个DruidDataSource的监控数据
+            use-global-datasource-stat: true
             async-init:
             clear-filters-enable:
             reset-stat-enable:
@@ -34,7 +43,7 @@ spring:
             max-wait-thread-count:
             fail-fast:
             phyTimeout-millis:
-            keep-alive:
+            keep-alive: true
             pool-prepared-statements:
             init-variants:
             init-global-variants:
@@ -47,22 +56,36 @@ spring:
             connection-errorretry-attempts:
             break-after-acquire-failure:
             filters: stat,wall # 注意这个值和druid原生不一致，默认启动了stat,wall
+            # 预防sql注入配置（https://github.com/alibaba/druid/wiki/%E9%85%8D%E7%BD%AE-wallfilter）
             wall:
               noneBaseStatementAllow:
               callAllow:
-              selectAllow:
-              selectIntoAllow:
-              selectIntoOutfileAllow:
-              selectWhereAlwayTrueCheck:
-              selectHavingAlwayTrueCheck:
-              selectUnionCheck:
-              selectMinusCheck:
-              selectExceptCheck:
-              selectIntersectCheck:
-              createTableAllow:
-              dropTableAllow:
-              alterTableAllow:
-              renameTableAllow:
+              #是否允许执行SELECT语句
+              selectAllow: true
+              #SELECT查询中是否允许INTO字句
+              selectIntoAllow: true
+              #这个是mysql注入攻击的常见手段
+              selectIntoOutfileAllow: false
+              #检查SELECT语句的WHERE子句是否是一个永真条件
+              selectWhereAlwayTrueCheck: true
+              #检查SELECT语句的HAVING子句是否是一个永真条件
+              selectHavingAlwayTrueCheck: true
+              #检测SELECT UNION
+              selectUnionCheck: true
+              #检测SELECT MINUS
+              selectMinusCheck: true
+              #检测SELECT EXCEPT
+              selectExceptCheck: true
+              #检测SELECT INTERSECT
+              selectIntersectCheck: true
+              #是否允许创建表
+              createTableAllow: true
+              #是否允许修改表
+              dropTableAllow: true
+              #是否允许执行Alter Table语句
+              alterTableAllow: true
+              #重命名表明
+              renameTableAllow: true
               hintAllow:
               lockTableAllow:
               startTransactionAllow:
@@ -114,9 +137,11 @@ spring:
               insertValuesCheckSize:
               selectLimit:
             stat:
-              merge-sql:
-              log-slow-sql:
-              slow-sql-millis:
+              #SQL合并配置
+              merge-sql: true
+              #慢SQL记录
+              log-slow-sql: true
+              slow-sql-millis: 3000
           datasource:
             master:
               username: root
