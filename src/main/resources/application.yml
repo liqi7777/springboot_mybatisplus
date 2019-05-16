@@ -12,7 +12,7 @@ spring:
 
 mybatis-plus:
     #枚举类 扫描路径，如果配置了该属性，会将路径下的枚举类进行注入，让实体类字段能够简单快捷的使
-    type-enums-package:
+    type-enums-package: com.example.springboot_mybatisplus.enums
     #包扫描路径
     mapper-locations: classpath:mybatis/mappers/*Mapper.xml
     # MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名，注册后在 Mapper 对应的 XML 文件中可以直接使用类名，而不用使用全限定的类名(即 XML 中调用的时候不用包含包名)
@@ -44,6 +44,10 @@ mybatis-plus:
         #AutoMappingUnknownColumnBehavior.WARNING：以日志的形式打印相关警告信息
         #AutoMappingUnknownColumnBehavior.FAILING：当作映射失败处理，并抛出异常和详细信息
         auto-mapping-unknown-column-behavior: none
+        # 3.0.8之前版本问题默认将枚举注册为EnumOrdinalTypeHandler,这是错误的方式,默认是 org.apache.ibatis.type.EnumTypeHandler
+        # 如果项目之中实体统一使用IEnum或注解的方式,可配置成 com.baomidou.mybatisplus.extension.handlers.EnumTypeHandler,也可省略上面的type-enums-package配置
+        # 配置type-enums-package只对注解方式的枚举处理能提前加载缓存.
+        default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
 
 # mybatis 日志打印
 logging:

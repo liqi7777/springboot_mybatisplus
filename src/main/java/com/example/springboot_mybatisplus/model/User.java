@@ -1,6 +1,9 @@
 package com.example.springboot_mybatisplus.model;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.example.springboot_mybatisplus.enums.SexEnum;
 
 import java.io.Serializable;
 
@@ -29,6 +32,7 @@ public class User implements Serializable {
     /**
      * 年龄
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Integer age;
 
     /**
@@ -41,6 +45,19 @@ public class User implements Serializable {
     @TableLogic
     private Integer isDelete;
 
+    private SexEnum sex;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public SexEnum getSex() {
+        return sex;
+    }
+
+    public void setSex(SexEnum sex) {
+        this.sex = sex;
+    }
 
     public Long getId() {
         return id;
@@ -94,11 +111,12 @@ public class User implements Serializable {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name=" + name +
+                ", name='" + name + '\'' +
                 ", age=" + age +
-                ", email=" + email +
-                ", aliasName=" + aliasName +
+                ", email='" + email + '\'' +
+                ", aliasName='" + aliasName + '\'' +
                 ", isDelete=" + isDelete +
-                "}";
+                ", sex='" + sex.toString() + '\'' +
+                '}';
     }
 }

@@ -257,4 +257,33 @@ public class SpringbootMybatisplusApplicationTests {
         IPage<User> userIPage = userMapper.selectPageVo(userPage, 20);
         System.out.println(userIPage.getRecords());
     }
+
+    /**
+     * 通用枚举测试
+     *
+     * @throws Exception
+     */
+    @Test
+    public void enumTest() throws Exception {
+        List<User> users = userMapper.selectList(null);
+        for (User user : users) {
+            System.out.println(user.getSex().getValue());
+        }
+    }
+
+    /**
+     * 自动填充功能测试
+     *
+     * @throws Exception
+     */
+    @Test
+    public void FieldFillTest() throws Exception {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("id","5");
+        User user = userMapper.selectOne(userQueryWrapper);
+        System.out.println(user.toString());
+        user.setName("billie");
+        int i = userMapper.updateById(user);
+        System.out.println(i);
+    }
 }
