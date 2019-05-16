@@ -19,8 +19,8 @@ import javax.sql.DataSource;
  * @ClassName cn.saytime.config.DruidConfiguration
  * @Description
  */
-@Configuration
-@PropertySource(value = "classpath:druid.properties")
+//@Configuration
+//@PropertySource(value = "classpath:druid.properties")
 public class DruidConfiguration {
 
     @Bean(destroyMethod = "close", initMethod = "init")

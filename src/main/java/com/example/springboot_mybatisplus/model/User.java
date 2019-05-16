@@ -3,6 +3,7 @@ package com.example.springboot_mybatisplus.model;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.Version;
 import com.example.springboot_mybatisplus.enums.SexEnum;
 
 import java.io.Serializable;
@@ -46,6 +47,20 @@ public class User implements Serializable {
     private Integer isDelete;
 
     private SexEnum sex;
+
+    /**
+     * 版本
+     */
+    @Version
+    private Integer version;
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -116,7 +131,8 @@ public class User implements Serializable {
                 ", email='" + email + '\'' +
                 ", aliasName='" + aliasName + '\'' +
                 ", isDelete=" + isDelete +
-                ", sex='" + sex.toString() + '\'' +
+                ", sex=" + sex.getValue() +
+                ", version=" + version +
                 '}';
     }
 }

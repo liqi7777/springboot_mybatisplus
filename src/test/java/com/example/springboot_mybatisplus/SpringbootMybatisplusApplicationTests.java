@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.springboot_mybatisplus.enums.SexEnum;
 import com.example.springboot_mybatisplus.mapper.SysUserMapper;
 import com.example.springboot_mybatisplus.mapper.UserMapper;
 import com.example.springboot_mybatisplus.model.SysUser;
@@ -298,5 +299,31 @@ public class SpringbootMybatisplusApplicationTests {
 //        int update = userMapper.update(new User(), userUpdateWrapper);
 //        System.out.println(update);
         userMapper.deleteAll();
+    }
+
+    /**
+     * 乐观锁插件测试
+     *
+     * @throws Exception
+     */
+    @Test
+    public void OptLockerTest() throws Exception {
+        User user = new User();
+        user.setAge(18);
+        user.setEmail("test@baomidou.com");
+        user.setName("optlocker");
+        user.setSex(SexEnum.MAN);
+        user.setAliasName("alias_name_optlocker");
+        user.setVersion(1);
+        userMapper.insert(user);
+        Long id = user.getId();
+        User userUpdate = new User();
+        userUpdate.setId(id);
+        userUpdate.setAge(19);
+//        userUpdate.setVersion(1);
+        userUpdate.setVersion(null);
+        System.out.println(userMapper.updateById(userUpdate));
+        Assert.assertEquals("Should update success", 1, userMapper.updateById(userUpdate));
+        Assert.assertEquals("Should version = version+1", 2, userUpdate.getVersion().intValue());
     }
 }

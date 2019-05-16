@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.extension.injector.LogicSqlInjector;
 import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
+import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.example.springboot_mybatisplus.sqlInjector.MySqlInjector;
@@ -68,6 +69,21 @@ public class MybatisConfiguration {
         performanceInterceptor.setFormat(true);
         //启用性能分析插件
         return performanceInterceptor;
+    }
+
+    /**
+     * 乐观锁配置
+     * 乐观锁实现方式：
+     * 取出记录时，获取当前version
+     * 更新时，带上这个version
+     * 执行更新时， set version = newVersion where version = oldVersion
+     * 如果version不对，就更新失败
+     *
+     * @return
+     */
+    @Bean
+    public OptimisticLockerInterceptor optimisticLockerInterceptor() {
+        return new OptimisticLockerInterceptor();
     }
 
 
