@@ -5,12 +5,14 @@ import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.extension.injector.LogicSqlInjector;
 import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.example.springboot_mybatisplus.sqlInjector.MySqlInjector;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.ArrayList;
@@ -51,6 +53,21 @@ public class MybatisConfiguration {
     @ConditionalOnMissingBean(MySqlInjector.class)
     public ISqlInjector sqlInjector() {
         return new LogicSqlInjector();
+    }
+
+    /**
+     * SQL执行效率插件
+     *
+     * @return
+     */
+    @Bean
+//    @Profile({"dev", "test"})// 设置 dev test 环境开启
+    public PerformanceInterceptor performanceInterceptor() {
+        PerformanceInterceptor performanceInterceptor = new PerformanceInterceptor();
+        //<!--SQL是否格式化 默认false-->
+        performanceInterceptor.setFormat(true);
+        //启用性能分析插件
+        return performanceInterceptor;
     }
 
 
