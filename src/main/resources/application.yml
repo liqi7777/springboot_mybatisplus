@@ -145,7 +145,7 @@ spring:
           datasource:
             master:
               username: root
-              password: 1234
+              password: root
               driver-class-name: com.mysql.jdbc.Driver
               url: jdbc:mysql://127.0.0.1:3306/freeter?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
               druid: # 以下参数针对每个库可以重新设置druid参数
